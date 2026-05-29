@@ -6,6 +6,7 @@ import com.sa.Classora.dto.response.OfferingResponse;
 import com.sa.Classora.service.OfferingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,31 +18,22 @@ public class OfferingController {
     private final OfferingService offeringService;
 
     @PostMapping
-    public OfferingResponse createOffering(
-            @Valid @RequestBody
-            CreateOfferingRequest request
-    ) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public OfferingResponse createOffering(@Valid @RequestBody CreateOfferingRequest request) {
 
         return offeringService.createOffering(request);
     }
 
     @PostMapping("/sessions")
-    public void addSession(
-            @Valid @RequestBody
-            CreateSessionRequest request
-    ) {
+    public void addSession(@Valid @RequestBody CreateSessionRequest request) {
 
         offeringService.addSession(request);
     }
 
     @GetMapping("/teacher/{teacherId}")
-    public List<OfferingResponse> getTeacherOfferings(
-            @PathVariable Long teacherId
-    ) {
+    public List<OfferingResponse> getTeacherOfferings(@PathVariable Long teacherId) {
 
-        return offeringService.getTeacherOfferings(
-                teacherId
-        );
+        return offeringService.getTeacherOfferings(teacherId);
     }
 
     @GetMapping

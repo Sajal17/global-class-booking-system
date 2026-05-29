@@ -40,11 +40,15 @@ public class BookingServiceImpl implements BookingService {
         ).orElseThrow(() ->
                 new ResourceNotFoundException("Parent not found"));
 
-        Offering offering = offeringRepository.findById(
-                request.offeringId()
-        ).orElseThrow(() ->
-                new ResourceNotFoundException("Offering not found"));
-
+        Offering offering =
+                offeringRepository
+                        .findByIdWithSessions(
+                                request.offeringId()
+                        )
+                        .orElseThrow(() ->
+                                new ResourceNotFoundException(
+                                        "Offering not found"
+                                ));
         bookingRepository.findWithLockingByParentId(
                 parent.getId()
         );
@@ -118,7 +122,6 @@ public class BookingServiceImpl implements BookingService {
             for (Session existingSession : existingSessions) {
 
                 for (Session newSession : newSessions) {
-
                     boolean overlap =
                             existingSession.getStartTimeUtc()
                                     .isBefore(
@@ -129,7 +132,6 @@ public class BookingServiceImpl implements BookingService {
                                             .isBefore(
                                                     existingSession.getEndTimeUtc()
                                             );
-
                     if (overlap) {
                         return true;
                     }

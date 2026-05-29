@@ -6,6 +6,7 @@ import com.sa.Classora.entity.Parent;
 import com.sa.Classora.service.ParentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,18 +18,14 @@ public class ParentController {
     private final ParentService parentService;
 
     @PostMapping
-    public ParentResponse createParent(
-            @Valid @RequestBody
-            CreateParentRequest request
-    ) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ParentResponse createParent(@Valid @RequestBody CreateParentRequest request ) {
 
         return parentService.createParent(request);
     }
 
     @GetMapping("/{parentId}")
-    public Parent getParentById(
-            @PathVariable Long parentId
-    ) {
+    public Parent getParentById(@PathVariable Long parentId ) {
 
         return parentService.getParentById(parentId);
     }

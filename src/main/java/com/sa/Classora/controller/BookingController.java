@@ -6,6 +6,7 @@ import com.sa.Classora.service.BookingService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,21 +19,15 @@ public class BookingController {
     private final BookingService bookingService;
 
     @PostMapping
-    public BookingResponse bookOffering(
-            @Valid @RequestBody
-            BookOfferingRequest request
-    ) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public BookingResponse bookOffering(@Valid @RequestBody BookOfferingRequest request) {
 
         return bookingService.bookOffering(request);
     }
 
     @GetMapping("/parent/{parentId}")
-    public List<BookingResponse> getParentBookings(
-            @PathVariable Long parentId
-    ) {
+    public List<BookingResponse> getParentBookings(@PathVariable Long parentId ) {
 
-        return bookingService.getParentBookings(
-                parentId
-        );
+        return bookingService.getParentBookings(parentId);
     }
 }

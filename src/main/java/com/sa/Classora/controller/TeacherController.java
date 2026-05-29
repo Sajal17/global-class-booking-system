@@ -18,19 +18,13 @@ public class TeacherController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TeacherResponse createTeacher(
-            @Valid
-            @RequestBody
-            CreateTeacherRequest request
-    ) {
+    public TeacherResponse createTeacher(@Valid @RequestBody CreateTeacherRequest request) {
 
         return teacherService.createTeacher(request);
     }
 
     @GetMapping("/{teacherId}")
-    public Teacher getTeacherById(
-            @PathVariable Long teacherId
-    ) {
+    public Teacher getTeacherById(@PathVariable Long teacherId ) {
 
         return teacherService.getTeacherById(teacherId);
     }
